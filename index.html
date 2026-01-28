@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игрушечное Казино | Русская рулетка, Слоты, Футбол</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f1f1f1;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #ffd700;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .balance-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .balance {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .balance-label {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .game-card {
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+        }
+        
+        .game-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .game-icon.football {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        }
+        
+        .game-icon.slots {
+            background: linear-gradient(135deg, #2196F3, #0D47A1);
+        }
+        
+        .game-title {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .game-description {
+            color: #bbb;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .game-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .bet-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        .bet-label {
+            color: #aaa;
+        }
+        
+        .bet-amount {
+            font-weight: bold;
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+        
+        .bet-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .bet-btn {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .bet-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+        }
+        
+        .action-btn {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .action-btn:hover {
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+        }
+        
+        .action-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .action-btn.secondary {
+            background: linear-gradient(to right, #2193b0, #6dd5ed);
+        }
+        
+        .action-btn.secondary:hover {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            box-shadow: 0 5px 15px rgba(33, 147, 176, 0.4);
+        }
+        
+        .action-btn.green {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+        }
+        
+        .action-btn.green:hover {
+            background: linear-gradient(to right, #2E7D32, #4CAF50);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        /* Русская рулетка специфичные стили */
+        .roulette-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .revolver {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            margin: 20px 0;
+        }
+        
+        .revolver-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #8B4513, #A0522D, #8B4513);
+            border-radius: 20px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+            border: 8px solid #5D2906;
+        }
+        
+        .revolver-barrel {
+            position: absolute;
+            width: 60%;
+            height: 40px;
+            background: #333;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            border-radius: 0 10px 10px 0;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+        
+        .cylinder {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: #222;
+            border-radius: 50%;
+            left: 30px;
+            top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+            border: 5px solid #444;
+        }
+        
+        .chamber {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #555;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #ddd;
+            border: 2px solid #666;
+            transition: all 0.5s;
+        }
+        
+        .chamber.active {
+            background: #ff4444;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+        
+        .chamber.used {
+            background: #333;
+            color: #777;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .game-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center;
+            font-size: 1.2rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .win {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .lose {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        /* Футбольная игра стили */
+        .football-match {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 20px;
+        }
+        
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .team.selected {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .team-odds {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .vs {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            padding: 0 10px;
+        }
+        
+        .match-time {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        .match-progress {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .match-events {
+            width: 100%;
+            min-height: 60px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.9rem;
+            overflow-y: auto;
+            max-height: 100px;
+        }
+        
+        .match-event {
+            padding: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+        }
+        
+        .match-event.goal {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .match-event.danger {
+            color: #ff9800;
+        }
+        
+        .score {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .score-team {
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .score-separator {
+            color: #ffd700;
+        }
+        
+        .bet-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .bet-option {
+            flex: 1;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .bet-option:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .bet-option.selected {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .bet-option-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .bet-option-odds {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .history {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .history h3 {
+            margin-bottom: 15px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .history-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .history-item {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .history-win {
+            background: rgba(76, 175, 80, 0.2);
+            color: #a5d6a7;
+        }
+        
+        .history-lose {
+            background: rgba(244, 67, 54, 0.2);
+            color: #ef9a9a;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .warning {
+            color: #ff9800;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .games-container {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .revolver {
+                width: 240px;
+                height: 160px;
+            }
+            
+            .cylinder {
+                width: 120px;
+                height: 120px;
+                left: 20px;
+            }
+            
+            .teams {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .team {
+                width: 100%;
+            }
+            
+            .bet-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-dice"></i>
+                <h1>ИГРУШЕЧНОЕ КАЗИНО</h1>
+            </div>
+            <div class="balance-container">
+                <div class="balance-label">Баланс:</div>
+                <div class="balance" id="balance">1000</div>
+                <i class="fas fa-coins" style="color: #ffd700;"></i>
+            </div>
+        </header>
+        
+        <div class="games-container">
+            <!-- Русская рулетка -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">
+                        <i class="fas fa-gun"></i>
+                    </div>
+                    <h2 class="game-title">Русская рулетка</h2>
+                </div>
+                <p class="game-description">
+                    Классическая игра на удачу. В барабане револьвера 6 ячеек, в одной из них находится пуля. 
+                    Сделайте ставку и нажмите "Выстрелить". Если выстрела не произошло - вы выигрываете! 
+                    <strong>Можете остановить игру в любой момент и забрать выигрыш за оставшиеся патроны.</strong>
+                </p>
+                
+                <div class="roulette-container">
+                    <div class="revolver">
+                        <div class="revolver-body"></div>
+                        <div class="revolver-barrel"></div>
+                        <div class="cylinder" id="cylinder">
+                            <!-- Камеры будут добавлены через JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="game-info">
+                        <div class="info-item">
+                            <div class="info-label">Осталось патронов</div>
+                            <div class="info-value" id="remainingChambers">6</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Множитель выигрыша</div>
+                            <div class="info-value" id="winMultiplier">1.0x</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Макс. выигрыш</div>
+                            <div class="info-value" id="maxWin">100</div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <div class="bet-controls">
+                            <div class="bet-label">Ставка:</div>
+                            <div class="bet-amount" id="rouletteBet">50</div>
+                            <div class="bet-buttons">
+                                <button class="bet-btn" onclick="changeRouletteBet(10)">10</button>
+                                <button class="bet-btn" onclick="changeRouletteBet(50)">50</button>
+                                <button class="bet-btn" onclick="changeRouletteBet(100)">100</button>
+                                <button class="bet-btn" onclick="changeRouletteBet(200)">200</button>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; width: 100%;">
+                            <button class="action-btn" id="spinBtn" onclick="spinCylinder()" style="flex: 1;">
+                                <i class="fas fa-redo-alt"></i> Крутить барабан
+                            </button>
+                            
+                            <button class="action-btn secondary" id="cashoutBtn" onclick="cashOut()" style="flex: 1;" disabled>
+                                <i class="fas fa-money-bill-wave"></i> Забрать выигрыш
+                            </button>
+                        </div>
+                        
+                        <button class="action-btn" id="shootBtn" onclick="shoot()" disabled>
+                            <i class="fas fa-gun"></i> Выстрелить
+                        </button>
+                    </div>
+                    
+                    <div class="game-result" id="rouletteResult">
+                        Сделайте ставку и начните игру
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Слот-машина -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon slots">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h2 class="game-title">Слот-машина</h2>
+                </div>
+                <p class="game-description">
+                    Попробуйте удачу на слот-машине! Крутите барабаны и получайте выигрыши за совпадения символов.
+                    Чем больше одинаковых символов, тем больше выигрыш!
+                </p>
+                
+                <div class="game-controls">
+                    <div class="slot-machine" id="slotMachine">
+                        <div class="slot-reels" style="display: flex; gap: 10px; justify-content: center; margin: 20px 0;">
+                            <div class="slot-reel" id="reel1" style="width: 70px; height: 70px; background: #222; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">🍒</div>
+                            <div class="slot-reel" id="reel2" style="width: 70px; height: 70px; background: #222; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">🍋</div>
+                            <div class="slot-reel" id="reel3" style="width: 70px; height: 70px; background: #222; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">⭐</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bet-controls">
+                        <div class="bet-label">Ставка:</div>
+                        <div class="bet-amount" id="slotBet">20</div>
+                        <div class="bet-buttons">
+                            <button class="bet-btn" onclick="changeSlotBet(10)">10</button>
+                            <button class="bet-btn" onclick="changeSlotBet(20)">20</button>
+                            <button class="bet-btn" onclick="changeSlotBet(50)">50</button>
+                            <button class="bet-btn" onclick="changeSlotBet(100)">100</button>
+                        </div>
+                    </div>
+                    
+                    <button class="action-btn" onclick="spinSlots()">
+                        <i class="fas fa-play"></i> Крутить барабаны
+                    </button>
+                    
+                    <div class="game-result" id="slotResult">
+                        Крутите барабаны!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ставки на футбол -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon football">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <h2 class="game-title">Ставки на футбол</h2>
+                </div>
+                <p class="game-description">
+                    Сделайте ставку на результат футбольного матча! Выберите команду или ничью, сделайте ставку и наблюдайте за эмуляцией матча в реальном времени.
+                </p>
+                
+                <div class="football-match">
+                    <div class="match-time" id="matchTime">Сегодня, 20:00</div>
+                    
+                    <div class="teams">
+                        <div class="team" id="team1" onclick="selectTeam('team1')">
+                            <div class="team-name" id="team1Name">Реал Мадрид</div>
+                            <div class="team-odds" id="team1Odds">2.15</div>
+                            <div class="team-score" id="team1Score">0</div>
+                        </div>
+                        
+                        <div class="vs">VS</div>
+                        
+                        <div class="team" id="team2" onclick="selectTeam('team2')">
+                            <div class="team-name" id="team2Name">Барселона</div>
+                            <div class="team-odds" id="team2Odds">1.85</div>
+                            <div class="team-score" id="team2Score">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="score">
+                        <div class="score-team" id="scoreTeam1">0</div>
+                        <div class="score-separator">:</div>
+                        <div class="score-team" id="scoreTeam2">0</div>
+                    </div>
+                    
+                    <div class="match-progress">
+                        <div class="progress-bar" id="matchProgress"></div>
+                    </div>
+                    
+                    <div class="match-events" id="matchEvents">
+                        Матч скоро начнется...
+                    </div>
+                    
+                    <div class="bet-options">
+                        <div class="bet-option" id="betOption1" onclick="selectBetOption('team1')">
+                            <div class="bet-option-name">П1</div>
+                            <div class="bet-option-odds" id="odds1">2.15</div>
+                            <div>Победа первой команды</div>
+                        </div>
+                        
+                        <div class="bet-option" id="betOptionX" onclick="selectBetOption('draw')">
+                            <div class="bet-option-name">X</div>
+                            <div class="bet-option-odds" id="oddsX">3.50</div>
+                            <div>Ничья</div>
+                        </div>
+                        
+                        <div class="bet-option" id="betOption2" onclick="selectBetOption('team2')">
+                            <div class="bet-option-name">П2</div>
+                            <div class="bet-option-odds" id="odds2">1.85</div>
+                            <div>Победа второй команды</div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <div class="bet-controls">
+                            <div class="bet-label">Ставка:</div>
+                            <div class="bet-amount" id="footballBet">50</div>
+                            <div class="bet-buttons">
+                                <button class="bet-btn" onclick="changeFootballBet(10)">10</button>
+                                <button class="bet-btn" onclick="changeFootballBet(50)">50</button>
+                                <button class="bet-btn" onclick="changeFootballBet(100)">100</button>
+                                <button class="bet-btn" onclick="changeFootballBet(200)">200</button>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; width: 100%;">
+                            <button class="action-btn green" id="placeBetBtn" onclick="placeFootballBet()" style="flex: 1;">
+                                <i class="fas fa-money-check"></i> Сделать ставку
+                            </button>
+                            
+                            <button class="action-btn secondary" id="simulateBtn" onclick="simulateMatch()" style="flex: 1;" disabled>
+                                <i class="fas fa-play"></i> Начать матч
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="game-result" id="footballResult">
+                        Выберите исход и сделайте ставку
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="history">
+            <h3><i class="fas fa-history"></i> История игр</h3>
+            <div class="history-list" id="historyList">
+                <!-- История будет добавляться через JS -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>ВНИМАНИЕ: Это игрушечное казино создано исключительно в развлекательных целях.</p>
+            <p class="warning">Играйте не ответственно. Все ставки виртуальные, никакие реальные деньги не используются.</p>
+            <p style="margin-top: 15px;">© 2026 Игрушечное Казино. Все права защищены (но это не точно).</p>
+        </footer>
+    </div>
+
+    <script>
+        // Игровые переменные
+        let balance = 1000;
+        let rouletteBet = 50;
+        let slotBet = 20;
+        let footballBet = 50;
+        let gameHistory = [];
+        
+        // Русская рулетка переменные
+        let cylinderChambers = [false, false, false, false, false, false];
+        let currentChamber = 0;
+        let bulletChamber = -1;
+        let remainingChambers = 6;
+        let rouletteGameActive = false;
+        let currentWinMultiplier = 1.0;
+        
+        // Футбольные переменные
+        let selectedTeam = null;
+        let selectedBetOption = null;
+        let matchInProgress = false;
+        let matchTime = 0;
+        const totalMatchTime = 90; // 90 минут матча
+        let matchInterval = null;
+        let team1Score = 0;
+        let team2Score = 0;
+        let matchEvents = [];
+        let currentFootballBet = null;
+        
+        // Список футбольных команд для случайного выбора
+        const footballTeams = [
+            { name: "Реал Мадрид", strength: 85 },
+            { name: "Барселона", strength: 88 },
+            { name: "Бавария", strength: 84 },
+            { name: "Манчестер Сити", strength: 87 },
+            { name: "Ливерпуль", strength: 83 },
+            { name: "ПСЖ", strength: 82 },
+            { name: "Ювентус", strength: 81 },
+            { name: "Челси", strength: 82 },
+            { name: "Милан", strength: 80 },
+            { name: "Боруссия Дортмунд", strength: 79 }
+        ];
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBalanceDisplay();
+            createCylinderChambers();
+            updateHistoryDisplay();
+            generateFootballMatch();
+        });
+        
+        // Функции для общих элементов
+        function updateBalanceDisplay() {
+            document.getElementById('balance').textContent = balance;
+        }
+        
+        function addToHistory(game, result, amount) {
+            const historyItem = {
+                game,
+                result,
+                amount,
+                timestamp: new Date().toLocaleTimeString()
+            };
+            
+            gameHistory.unshift(historyItem); // Добавляем в начало
+            if (gameHistory.length > 10) {
+                gameHistory.pop(); // Удаляем старые записи
+            }
+            
+            updateHistoryDisplay();
+        }
+        
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            gameHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = `history-item ${item.result === 'win' ? 'history-win' : 'history-lose'}`;
+                historyItem.textContent = `${item.game}: ${item.result === 'win' ? '+' : '-'}${item.amount} (${item.timestamp})`;
+                historyList.appendChild(historyItem);
+            });
+        }
+        
+        // Функции для русской рулетки
+        function createCylinderChambers() {
+            const cylinder = document.getElementById('cylinder');
+            cylinder.innerHTML = '';
+            
+            // Создаем 6 камер
+            for (let i = 0; i < 6; i++) {
+                const chamber = document.createElement('div');
+                chamber.className = 'chamber';
+                chamber.id = `chamber${i}`;
+                chamber.textContent = i + 1;
+                
+                // Позиционируем камеры по кругу
+                const angle = (i * 60) * Math.PI / 180;
+                const radius = 50;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                
+                chamber.style.left = `calc(50% + ${x}px)`;
+                chamber.style.top = `calc(50% + ${y}px)`;
+                chamber.style.transform = `translate(-50%, -50%)`;
+                
+                cylinder.appendChild(chamber);
+            }
+        }
+        
+        function updateCylinderDisplay() {
+            for (let i = 0; i < 6; i++) {
+                const chamber = document.getElementById(`chamber${i}`);
+                chamber.classList.remove('active', 'used');
+                
+                if (cylinderChambers[i]) {
+                    chamber.classList.add('used');
+                }
+                
+                if (i === currentChamber) {
+                    chamber.classList.add('active');
+                }
+            }
+        }
+        
+        function updateGameInfo() {
+            // Обновляем информацию об игре
+            document.getElementById('remainingChambers').textContent = remainingChambers;
+            document.getElementById('winMultiplier').textContent = currentWinMultiplier.toFixed(1) + 'x';
+            document.getElementById('maxWin').textContent = Math.floor(rouletteBet * currentWinMultiplier);
+        }
+        
+        function changeRouletteBet(amount) {
+            if (rouletteGameActive) return;
+            
+            rouletteBet = amount;
+            document.getElementById('rouletteBet').textContent = rouletteBet;
+            updateGameInfo();
+        }
+        
+        function spinCylinder() {
+            if (rouletteGameActive) return;
+            
+            // Сбрасываем состояние игры
+            cylinderChambers = [false, false, false, false, false, false];
+            currentChamber = 0;
+            bulletChamber = Math.floor(Math.random() * 6);
+            remainingChambers = 6;
+            currentWinMultiplier = 1.0;
+            rouletteGameActive = true;
+            
+            // Крутим барабан случайное количество раз
+            const spins = Math.floor(Math.random() * 12) + 6;
+            currentChamber = (currentChamber + spins) % 6;
+            
+            // Обновляем отображение
+            updateCylinderDisplay();
+            
+            // Активируем кнопки
+            document.getElementById('shootBtn').disabled = false;
+            document.getElementById('spinBtn').disabled = true;
+            document.getElementById('cashoutBtn').disabled = false;
+            
+            // Обновляем информацию
+            updateGameInfo();
+            
+            // Обновляем результат
+            document.getElementById('rouletteResult').textContent = "Барабан прокручен. Нажмите 'Выстрелить' или 'Забрать выигрыш'!";
+            document.getElementById('rouletteResult').className = "game-result";
+            
+            // Снимаем ставку с баланса
+            if (balance >= rouletteBet) {
+                balance -= rouletteBet;
+                updateBalanceDisplay();
+            } else {
+                document.getElementById('rouletteResult').textContent = "Недостаточно средств!";
+                document.getElementById('rouletteResult').className = "game-result lose";
+                resetRouletteGame();
+                return;
+            }
+        }
+        
+        function shoot() {
+            if (!rouletteGameActive) return;
+            
+            // Проверяем, есть ли пуля в текущей камере
+            const hasBullet = currentChamber === bulletChamber;
+            
+            // Отмечаем камеру как использованную
+            cylinderChambers[currentChamber] = true;
+            remainingChambers--;
+            
+            // Увеличиваем множитель выигрыша (чем меньше патронов, тем выше множитель)
+            currentWinMultiplier = 6 / remainingChambers;
+            
+            // Обновляем отображение
+            updateCylinderDisplay();
+            updateGameInfo();
+            
+            // Определяем результат
+            const resultElement = document.getElementById('rouletteResult');
+            
+            if (hasBullet) {
+                // Игрок проиграл
+                resultElement.textContent = `БАХ! Выстрел! Вы проиграли ${rouletteBet} монет.`;
+                resultElement.className = "game-result lose";
+                addToHistory("Русская рулетка", "lose", rouletteBet);
+                
+                // Перезагружаем игру через 2 секунды
+                setTimeout(resetRouletteGame, 2000);
+            } else {
+                // Игрок выиграл раунд
+                const winAmount = Math.floor(rouletteBet * (currentWinMultiplier / 6));
+                resultElement.textContent = `Щелчок! Выжили! Выигрыш за этот раунд: ${winAmount} монет.`;
+                resultElement.className = "game-result win";
+                
+                // Переходим к следующей камере
+                currentChamber = (currentChamber + 1) % 6;
+                
+                // Если остались неиспользованные камеры, продолжаем
+                if (remainingChambers > 1) {
+                    setTimeout(() => {
+                        updateCylinderDisplay();
+                        resultElement.textContent = `Следующий выстрел... Нажмите 'Выстрелить' чтобы продолжить или 'Забрать выигрыш' чтобы остановиться.`;
+                        resultElement.className = "game-result";
+                    }, 1500);
+                } else {
+                    // Если остался последний патрон, забираем максимальный выигрыш
+                    setTimeout(() => {
+                        const finalWin = Math.floor(rouletteBet * currentWinMultiplier);
+                        balance += finalWin;
+                        updateBalanceDisplay();
+                        
+                        resultElement.textContent = `Поздравляем! Вы прошли все патроны и выиграли ${finalWin} монет!`;
+                        resultElement.className = "game-result win";
+                        addToHistory("Русская рулетка", "win", finalWin);
+                        
+                        setTimeout(resetRouletteGame, 3000);
+                    }, 1500);
+                }
+            }
+        }
+        
+        function cashOut() {
+            if (!rouletteGameActive || remainingChambers === 6) return;
+            
+            // Вычисляем выигрыш на основе оставшихся патронов
+            const winAmount = Math.floor(rouletteBet * currentWinMultiplier);
+            balance += winAmount;
+            updateBalanceDisplay();
+            
+            // Показываем результат
+            const resultElement = document.getElementById('rouletteResult');
+            resultElement.textContent = `Вы забрали выигрыш! Вы получили ${winAmount} монет. Осталось патронов: ${remainingChambers}`;
+            resultElement.className = "game-result win";
+            addToHistory("Русская рулетка", "win", winAmount);
+            
+            // Сбрасываем игру через 2 секунды
+            setTimeout(resetRouletteGame, 2000);
+        }
+        
+        function resetRouletteGame() {
+            rouletteGameActive = false;
+            document.getElementById('shootBtn').disabled = true;
+            document.getElementById('spinBtn').disabled = false;
+            document.getElementById('cashoutBtn').disabled = true;
+            
+            // Сбрасываем отображение камер
+            for (let i = 0; i < 6; i++) {
+                const chamber = document.getElementById(`chamber${i}`);
+                chamber.classList.remove('active', 'used');
+                chamber.textContent = i + 1;
+            }
+            
+            // Сбрасываем информацию
+            remainingChambers = 6;
+            currentWinMultiplier = 1.0;
+            updateGameInfo();
+            
+            document.getElementById('rouletteResult').textContent = "Сделайте ставку и начните игру";
+            document.getElementById('rouletteResult').className = "game-result";
+        }
+        
+        // Функции для слот-машины
+        function changeSlotBet(amount) {
+            slotBet = amount;
+            document.getElementById('slotBet').textContent = slotBet;
+        }
+        
+        function spinSlots() {
+            if (balance < slotBet) {
+                document.getElementById('slotResult').textContent = "Недостаточно средств!";
+                document.getElementById('slotResult').className = "game-result lose";
+                return;
+            }
+            
+            // Снимаем ставку
+            balance -= slotBet;
+            updateBalanceDisplay();
+            
+            // Анимация вращения барабанов
+            const reels = [
+                document.getElementById('reel1'),
+                document.getElementById('reel2'),
+                document.getElementById('reel3')
+            ];
+            
+            const symbols = ['🍒', '🍋', '⭐', '7️⃣', '🔔', '🍉', '💎'];
+            
+            // Анимация вращения
+            let spins = 0;
+            const maxSpins = 20;
+            const spinInterval = setInterval(() => {
+                for (let i = 0; i < reels.length; i++) {
+                    // На последних оборотах замедляем
+                    if (spins > maxSpins - (i * 5)) {
+                        continue;
+                    }
+                    
+                    const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    reels[i].textContent = randomSymbol;
+                    reels[i].style.transform = `scale(1.1)`;
+                    setTimeout(() => {
+                        reels[i].style.transform = `scale(1)`;
+                    }, 100);
+                }
+                
+                spins++;
+                
+                if (spins >= maxSpins) {
+                    clearInterval(spinInterval);
+                    
+                    // Устанавливаем финальные символы
+                    const finalSymbols = [
+                        symbols[Math.floor(Math.random() * symbols.length)],
+                        symbols[Math.floor(Math.random() * symbols.length)],
+                        symbols[Math.floor(Math.random() * symbols.length)]
+                    ];
+                    
+                    for (let i = 0; i < reels.length; i++) {
+                        reels[i].textContent = finalSymbols[i];
+                    }
+                    
+                    // Определяем результат
+                    calculateSlotResult(finalSymbols);
+                }
+            }, 100);
+        }
+        
+        function calculateSlotResult(symbols) {
+            const resultElement = document.getElementById('slotResult');
+            let winAmount = 0;
+            
+            // Проверяем совпадения
+            if (symbols[0] === symbols[1] && symbols[1] === symbols[2]) {
+                // Три одинаковых символа
+                if (symbols[0] === '7️⃣') {
+                    winAmount = slotBet * 10; // Джекпот
+                } else if (symbols[0] === '💎') {
+                    winAmount = slotBet * 8;
+                } else if (symbols[0] === '⭐') {
+                    winAmount = slotBet * 6;
+                } else {
+                    winAmount = slotBet * 4;
+                }
+                
+                resultElement.textContent = `ДЖЕКПОТ! Три символа ${symbols[0]}! Вы выиграли ${winAmount} монет!`;
+                resultElement.className = "game-result win";
+                addToHistory("Слот-машина", "win", winAmount);
+            } else if (symbols[0] === symbols[1] || symbols[1] === symbols[2] || symbols[0] === symbols[2]) {
+                // Два одинаковых символа
+                winAmount = Math.floor(slotBet * 1.5);
+                resultElement.textContent = `Два одинаковых символа! Вы выиграли ${winAmount} монет!`;
+                resultElement.className = "game-result win";
+                addToHistory("Слот-машина", "win", winAmount);
+            } else {
+                // Нет совпадений
+                resultElement.textContent = `Нет совпадений. Вы проиграли ${slotBet} монет.`;
+                resultElement.className = "game-result lose";
+                addToHistory("Слот-машина", "lose", slotBet);
+                return;
+            }
+            
+            // Добавляем выигрыш к балансу
+            balance += winAmount;
+            updateBalanceDisplay();
+        }
+        
+        // Функции для футбольных ставок
+        function generateFootballMatch() {
+            // Выбираем две случайные команды
+            let team1Index = Math.floor(Math.random() * footballTeams.length);
+            let team2Index;
+            do {
+                team2Index = Math.floor(Math.random() * footballTeams.length);
+            } while (team2Index === team1Index);
+            
+            const team1 = footballTeams[team1Index];
+            const team2 = footballTeams[team2Index];
+            
+            // Устанавливаем названия команд
+            document.getElementById('team1Name').textContent = team1.name;
+            document.getElementById('team2Name').textContent = team2.name;
+            
+            // Рассчитываем коэффициенты на основе силы команд
+            const team1Strength = team1.strength;
+            const team2Strength = team2.strength;
+            const totalStrength = team1Strength + team2Strength;
+            
+            // Базовые коэффициенты
+            const team1Odds = (totalStrength / team1Strength * 1.2).toFixed(2);
+            const team2Odds = (totalStrength / team2Strength * 1.2).toFixed(2);
+            const drawOdds = ((parseFloat(team1Odds) + parseFloat(team2Odds)) / 2 * 1.5).toFixed(2);
+            
+            // Устанавливаем коэффициенты
+            document.getElementById('team1Odds').textContent = team1Odds;
+            document.getElementById('team2Odds').textContent = team2Odds;
+            document.getElementById('odds1').textContent = team1Odds;
+            document.getElementById('oddsX').textContent = drawOdds;
+            document.getElementById('odds2').textContent = team2Odds;
+            
+            // Сбрасываем счет
+            team1Score = 0;
+            team2Score = 0;
+            updateScoreDisplay();
+            
+            // Сбрасываем события
+            matchEvents = [];
+            document.getElementById('matchEvents').innerHTML = "Матч скоро начнется...";
+            
+            // Сбрасываем прогресс
+            matchTime = 0;
+            document.getElementById('matchProgress').style.width = '0%';
+            
+            // Сбрасываем выбранные ставки
+            selectedTeam = null;
+            selectedBetOption = null;
+            document.getElementById('team1').classList.remove('selected');
+            document.getElementById('team2').classList.remove('selected');
+            document.getElementById('betOption1').classList.remove('selected');
+            document.getElementById('betOptionX').classList.remove('selected');
+            document.getElementById('betOption2').classList.remove('selected');
+            
+            // Обновляем время матча
+            const now = new Date();
+            const matchDate = new Date(now.getTime() + 2 * 60 * 60 * 1000); // Через 2 часа
+            const timeString = matchDate.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('matchTime').textContent = `Сегодня, ${timeString}`;
+            
+            // Активируем кнопки
+            document.getElementById('placeBetBtn').disabled = false;
+            document.getElementById('simulateBtn').disabled = true;
+            
+            // Сбрасываем результат
+            document.getElementById('footballResult').textContent = "Выберите исход и сделайте ставку";
+            document.getElementById('footballResult').className = "game-result";
+        }
+        
+        function changeFootballBet(amount) {
+            if (matchInProgress) return;
+            
+            footballBet = amount;
+            document.getElementById('footballBet').textContent = footballBet;
+        }
+        
+        function selectTeam(team) {
+            if (matchInProgress) return;
+            
+            // Сбрасываем предыдущий выбор
+            document.getElementById('team1').classList.remove('selected');
+            document.getElementById('team2').classList.remove('selected');
+            
+            // Выбираем новую команду
+            document.getElementById(team).classList.add('selected');
+            selectedTeam = team;
+            
+            // Автоматически выбираем соответствующую ставку
+            if (team === 'team1') {
+                selectBetOption('team1');
+            } else {
+                selectBetOption('team2');
+            }
+        }
+        
+        function selectBetOption(option) {
+            if (matchInProgress) return;
+            
+            // Сбрасываем предыдущий выбор
+            document.getElementById('betOption1').classList.remove('selected');
+            document.getElementById('betOptionX').classList.remove('selected');
+            document.getElementById('betOption2').classList.remove('selected');
+            
+            // Выбираем новую опцию
+            document.getElementById(`betOption${option === 'team1' ? '1' : option === 'team2' ? '2' : 'X'}`).classList.add('selected');
+            selectedBetOption = option;
+        }
+        
+        function placeFootballBet() {
+            if (matchInProgress || !selectedBetOption || balance < footballBet) {
+                if (balance < footballBet) {
+                    document.getElementById('footballResult').textContent = "Недостаточно средств!";
+                    document.getElementById('footballResult').className = "game-result lose";
+                }
+                return;
+            }
+            
+            // Снимаем ставку с баланса
+            balance -= footballBet;
+            updateBalanceDisplay();
+            
+            // Сохраняем текущую ставку
+            currentFootballBet = {
+                option: selectedBetOption,
+                amount: footballBet,
+                odds: parseFloat(document.getElementById(`odds${selectedBetOption === 'team1' ? '1' : selectedBetOption === 'team2' ? '2' : 'X'}`).textContent)
+            };
+            
+            // Блокируем кнопку ставки и активируем кнопку начала матча
+            document.getElementById('placeBetBtn').disabled = true;
+            document.getElementById('simulateBtn').disabled = false;
+            
+            // Показываем сообщение
+            document.getElementById('footballResult').textContent = `Ставка принята! ${footballBet} монет на ${selectedBetOption === 'team1' ? 'победу первой команды' : selectedBetOption === 'team2' ? 'победу второй команды' : 'ничью'}. Коэффициент: ${currentFootballBet.odds}`;
+            document.getElementById('footballResult').className = "game-result";
+            
+            addToHistory("Ставки на футбол", "bet", footballBet);
+        }
+        
+        function simulateMatch() {
+            if (!currentFootballBet || matchInProgress) return;
+            
+            matchInProgress = true;
+            document.getElementById('simulateBtn').disabled = true;
+            
+            // Сбрасываем счет и события
+            team1Score = 0;
+            team2Score = 0;
+            matchEvents = [];
+            matchTime = 0;
+            updateScoreDisplay();
+            
+            // Начинаем симуляцию матча
+            matchInterval = setInterval(updateMatch, 500);
+        }
+        
+        function updateMatch() {
+            // Увеличиваем время матча
+            matchTime += 1;
+            const progressPercent = (matchTime / totalMatchTime) * 100;
+            document.getElementById('matchProgress').style.width = `${progressPercent}%`;
+            
+            // Генерируем случайные события
+            if (Math.random() < 0.15 && matchTime < totalMatchTime - 5) {
+                // Шанс на гол
+                const scoringTeam = Math.random() < 0.5 ? 1 : 2;
+                
+                if (scoringTeam === 1) {
+                    team1Score++;
+                    matchEvents.push({ time: matchTime, event: `⚽ ГОЛ! ${document.getElementById('team1Name').textContent} забивает на ${matchTime} минуте!`, type: 'goal' });
+                } else {
+                    team2Score++;
+                    matchEvents.push({ time: matchTime, event: `⚽ ГОЛ! ${document.getElementById('team2Name').textContent} забивает на ${matchTime} минуте!`, type: 'goal' });
+                }
+                
+                updateScoreDisplay();
+            } else if (Math.random() < 0.1) {
+                // Другие события (желтая карточка, опасный момент и т.д.)
+                const events = [
+                    `🟨 Желтая карточка на ${matchTime} минуте`,
+                    `⚠️ Опасный момент у ворот на ${matchTime} минуте`,
+                    `🔄 Замена на ${matchTime} минуте`,
+                    `🎯 Удар мимо ворот на ${matchTime} минуте`,
+                    `🧤 Отличный сейв вратаря на ${matchTime} минуте`
+                ];
+                
+                matchEvents.push({ time: matchTime, event: events[Math.floor(Math.random() * events.length)], type: 'danger' });
+            }
+            
+            // Обновляем список событий
+            updateMatchEventsDisplay();
+            
+            // Проверяем, закончился ли матч
+            if (matchTime >= totalMatchTime) {
+                endMatch();
+            }
+        }
+        
+        function updateScoreDisplay() {
+            document.getElementById('team1Score').textContent = team1Score;
+            document.getElementById('team2Score').textContent = team2Score;
+            document.getElementById('scoreTeam1').textContent = team1Score;
+            document.getElementById('scoreTeam2').textContent = team2Score;
+        }
+        
+        function updateMatchEventsDisplay() {
+            const eventsContainer = document.getElementById('matchEvents');
+            eventsContainer.innerHTML = '';
+            
+            // Показываем последние 5 событий
+            const recentEvents = matchEvents.slice(-5);
+            recentEvents.forEach(event => {
+                const eventElement = document.createElement('div');
+                eventElement.className = `match-event ${event.type}`;
+                eventElement.textContent = event.event;
+                eventsContainer.appendChild(eventElement);
+            });
+            
+            // Прокручиваем вниз
+            eventsContainer.scrollTop = eventsContainer.scrollHeight;
+        }
+        
+        function endMatch() {
+            clearInterval(matchInterval);
+            matchInProgress = false;
+            
+            // Определяем результат матча
+            let matchResult;
+            if (team1Score > team2Score) {
+                matchResult = 'team1';
+            } else if (team2Score > team1Score) {
+                matchResult = 'team2';
+            } else {
+                matchResult = 'draw';
+            }
+            
+            // Проверяем, выиграла ли ставка
+            const resultElement = document.getElementById('footballResult');
+            if (currentFootballBet.option === matchResult) {
+                // Ставка выиграла
+                const winAmount = Math.floor(currentFootballBet.amount * currentFootballBet.odds);
+                balance += winAmount;
+                updateBalanceDisplay();
+                
+                resultElement.textContent = `Поздравляем! Ваша ставка выиграла! Вы получаете ${winAmount} монет. Финальный счет: ${team1Score}:${team2Score}`;
+                resultElement.className = "game-result win";
+                addToHistory("Ставки на футбол", "win", winAmount);
+            } else {
+                // Ставка проиграла
+                resultElement.textContent = `Ставка не сыграла. Вы проиграли ${currentFootballBet.amount} монет. Финальный счет: ${team1Score}:${team2Score}`;
+                resultElement.className = "game-result lose";
+                addToHistory("Ставки на футбол", "lose", currentFootballBet.amount);
+            }
+            
+            // Добавляем финальное событие
+            matchEvents.push({ time: totalMatchTime, event: `🏁 МАТЧ ОКОНЧЕН! Финальный счет: ${team1Score}:${team2Score}`, type: 'goal' });
+            updateMatchEventsDisplay();
+            
+            // Разблокируем кнопки для новой ставки
+            setTimeout(() => {
+                document.getElementById('placeBetBtn').disabled = false;
+                currentFootballBet = null;
+                generateFootballMatch();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
